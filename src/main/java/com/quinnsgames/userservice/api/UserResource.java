@@ -86,7 +86,7 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(endUser);
 	}
 	
-	//Add a role to the database. Not used.
+	//Add a role to the database.The frontend doesn't use this.
 	@CrossOrigin
 	@PostMapping(path="/role/save")
 	public ResponseEntity<Role> saveRole(@RequestBody Role role){
@@ -94,7 +94,7 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(userService.saveRole(role));
 	}
 	
-	//Add a role to the user. Another vestige of the tutorial that would be useful in larger projects.
+	//Add a role to the user.
 	@CrossOrigin
 	@PostMapping(path="/role/addtouser")
 	public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form){
