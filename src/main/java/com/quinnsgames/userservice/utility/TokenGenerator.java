@@ -22,6 +22,8 @@ public class TokenGenerator {
 				.sign(algorithm);
 	}
 	
+	//public static
+	
 	public static Algorithm getAlgorithm() {
 		return Algorithm.HMAC256(System.getenv("SecretString").getBytes()); //Sign it with a secret string stored in the environment.
 	}

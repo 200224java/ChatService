@@ -112,44 +112,6 @@ public class UserResource {
 		
 		return ResponseEntity.ok().body("User updated successfully.");
 	}
-	
-	//Get a new access token for the given user, based on their refresh token. This functionality is not currently used.
-	@CrossOrigin
-	@GetMapping(path="/token/refresh")
-	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String authorizationHeader = request.getHeader(AUTHORIZATION);
-		if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			try {
-				String refresh_token = authorizationHeader.substring("Bearer ".length());
-				Algorithm algorithm = TokenGenerator.getAlgorithm();
-				JWTVerifier verifier = JWT.require(algorithm).build();
-				DecodedJWT decodedJWT = verifier.verify(refresh_token);
-				String username = decodedJWT.getSubject();
-				
-				User user = userService.getUser(username);
-				
-				String access_token = TokenGenerator.generateAccessToken(request, user);
-				
-				Map<String, String> tokens = new HashMap<>();
-				tokens.put("access_token", access_token);
-				tokens.put("refresh_token", refresh_token);
-				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-				
-			}catch(Exception exception){
-				log.error("Error logging in: {}", exception.getMessage());
-				response.setHeader("error", exception.getMessage());
-				response.setStatus(FORBIDDEN.value());
-				
-				Map<String, String> error = new HashMap<>();
-				error.put("error_message", exception.getMessage());
-				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-				new ObjectMapper().writeValue(response.getOutputStream(), error);
-			}
-		} else {
-			throw new RuntimeException("Refresh token is missing");
-		}
-	}
 }
 
 @Data

@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TokenAuthorizer {
+	//This function ensures that the given access token is authentic.
 	public static boolean authorizeToken(HttpServletResponse response, String authorizationHeader)
 			throws ServletException, IOException {
 		try {
@@ -59,6 +60,8 @@ public class TokenAuthorizer {
 		}
 	}
 	
+	//This looks scary, but all it does is decode the JWT and compare the encoded user to a given username.
+	//Useful for restricting data to only certain users.
 	public static boolean authorizeUser(HttpServletResponse response, String authorizationHeader, String username)
 			throws ServletException, IOException {
 		boolean success = authorizeToken(response, authorizationHeader);
